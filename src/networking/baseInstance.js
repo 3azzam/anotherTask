@@ -1,4 +1,5 @@
 import axios from "axios";
+import { store } from '../redux/store'
 
 export const requestTypes = {
     GET: "GET",
@@ -14,6 +15,9 @@ const instance = axios.create({
         "Content-Type": "application/json",
         Accept: "application/json",
     },
+    params:{
+        token: store.getState().auth.token
+    }
 });
 
 

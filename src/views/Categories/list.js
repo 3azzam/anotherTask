@@ -5,9 +5,9 @@ const ListQuestions = () => {
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    // getCategoriesApi().then((res) => {
-    //   setCategories(res.data.trivia_categories);
-    // });
+    getCategoriesApi().then((res) => {
+      setCategories(res.data.trivia_categories);
+    });
   }, []);
 
   return (
