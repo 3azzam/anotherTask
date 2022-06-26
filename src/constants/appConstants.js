@@ -4,6 +4,12 @@ export const difficulties = {
     HARD: 3
 }
 
+export const difficultiesStrings = {
+    EASY: 'easy',
+    MEDIUM: 'medium',
+    HARD: 'hard'
+}
+
 export const responseTypes = {
     SUCCESS: 0,
     NO_RESULT: 1,

@@ -3,9 +3,11 @@ import {
     CATEGORIES_NUMBERS,
     QUESTION_NUMBERS,
     SELECTED_DIFFICULTY,
+    REMIANING_CATEGORIES,
+    SELECTED_CATEGORY
 } from "../../constants/localstorageConstant";
 import { difficulties } from "../../constants/appConstants";
-import { getString, saveString } from "../../utils/localStorage";
+import { getString, saveString, getJson, saveJson } from "../../utils/localStorage";
 
 const setQuestionsNumber = (difficulty) => {
     switch (difficulty) {
@@ -43,6 +45,8 @@ const initialState = {
     categoriesNumbers: getString(CATEGORIES_NUMBERS)
         ? parseInt(getString(CATEGORIES_NUMBERS), 10)
         : process.env.REACT_APP_CATEGORIES_EASY,
+    remainingCategories: getJson(REMIANING_CATEGORIES) || [],
+    selectedCategory: getString(SELECTED_CATEGORY) ? parseInt(getString(SELECTED_CATEGORY), 10) : null
 };
 
 export const gameSlice = createSlice({
@@ -59,8 +63,16 @@ export const gameSlice = createSlice({
             saveString(CATEGORIES_NUMBERS, setCategoriesNumber(difficulty));
             saveString(QUESTION_NUMBERS, setQuestionsNumber(difficulty));
         },
+        setRemainingCategories: (state, action) => {
+            const { remainingCategories, selectedCategory } = action.payload
+            state.remainingCategories = remainingCategories
+            state.selectedCategory = selectedCategory
+
+            saveJson(REMIANING_CATEGORIES, remainingCategories)
+            saveString(SELECTED_CATEGORY, selectedCategory)
+        }
     },
 });
 
-export const { setupGame } = gameSlice.actions
+export const { setupGame, setRemainingCategories } = gameSlice.actions
 export default gameSlice.reducer;

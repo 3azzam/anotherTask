@@ -10,6 +10,6 @@ export const getString = (key) => {
     return localStorage.getItem(key)
 }
 
-export const getArray = (key) => {
+export const getJson = (key) => {
     return JSON.parse(`${localStorage.getItem(key)}`)
 }
