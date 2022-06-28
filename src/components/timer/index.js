@@ -3,7 +3,7 @@ const Timer = ({ time, cb }) => {
   const [seconds, setSeconds] = useState(time);
 
   useEffect(() => {
-    clearTimeout();
+    setSeconds(time)
   }, [time]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const Timer = ({ time, cb }) => {
     }
   }, [seconds]);
 
-  const timeDisplay = () => {
+  const timeDisplay = (seconds) => {
     const remainingMinutes = parseInt(seconds / 60, 10);
     const remainingSeconds = seconds % 60;
     return `${
@@ -24,7 +24,7 @@ const Timer = ({ time, cb }) => {
     }:${remainingSeconds > 9 ? remainingSeconds : `0${remainingSeconds}`} `;
   };
 
-  return <div className="h2 text-white bg-dark p-2" >{timeDisplay()}</div>;
+  return <div className="h2 p-2" >{timeDisplay(seconds)}</div>;
 };
 
 export default Timer;

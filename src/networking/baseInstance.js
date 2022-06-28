@@ -16,7 +16,7 @@ const instance = axios.create({
         Accept: "application/json",
     },
     params:{
-        token: store.getState().auth.token
+        // token: store.getState().auth.token
     }
 });
 

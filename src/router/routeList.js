@@ -1,24 +1,31 @@
 import Home from '../views/Home'
 import ListCategories from '../views/Categories/list'
-import ShowQuesion from '../views/Questions/show'
+import QuestionsList from '../views/Questions'
+import Score from '../views/Score'
 
 export const routeList = [
 
     {
         path: '/',
-        component: () => <Home /> ,
+        component: () => <Home />,
         exact: true,
         auth: false
     },
     {
         path: '/categories',
-        component: () => <ListCategories /> ,
+        component: () => <ListCategories />,
         exact: false,
         auth: true
     },
     {
-        path: '/question/:id',
-        component: () => <ShowQuesion />,
+        path: '/questions',
+        component: () => <QuestionsList />,
+        exact: false,
+        auth: true
+    },
+    {
+        path: '/score',
+        component: () => <Score />,
         exact: false,
         auth: true
     },

@@ -5,9 +5,9 @@ export const difficulties = {
 }
 
 export const difficultiesStrings = {
-    EASY: 'easy',
-    MEDIUM: 'medium',
-    HARD: 'hard'
+    "1": 'easy',
+    "2": 'medium',
+    "3": 'hard'
 }
 
 export const responseTypes = {
@@ -16,4 +16,9 @@ export const responseTypes = {
     INVALID_PARAMS: 2,
     TOKEN_NOT_FOUND: 3,
     TOKEN_EMPTY: 4
+}
+
+export const questionsType = {
+    TF: 'boolean',
+    MULTIPLE: 'multiple'
 }

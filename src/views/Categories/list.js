@@ -2,21 +2,27 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setRemainingCategories } from "../../redux/reducers/gameReducer";
+import { setQuestions } from "../../redux/reducers/questionsReducer";
 import { getCategories as getCategoriesApi } from "../../networking/categoriesApis";
 import { getQuestionsInCategory } from "../../networking/questionsApis";
 import Loader from "../../components/loader";
 import { toast } from "react-toastify";
-import { responseTypes } from "../../constants/appConstants";
+import {
+  difficultiesStrings,
+  responseTypes,
+} from "../../constants/appConstants";
 import { apiErrorResponse } from "../../utils/apiError";
 
 const ListQuestions = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const categoriesNumbers = useSelector(
-    (state) => state.game.categoriesNumbers
-  );
-  
+  const {
+    remainingCategories,
+    categoriesNumbers,
+    questionNumbers,
+    difficulty,
+  } = useSelector((state) => state.game);
 
   const [selectionLimit, setSelectionLimit] = useState(categoriesNumbers);
   const [categories, setCategories] = useState([]);
@@ -24,14 +30,14 @@ const ListQuestions = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    if (remainingCategories.length > 0) {
+      setCategories(remainingCategories);
+      return;
+    }
     setIsLoading(true);
     getCategoriesApi()
       .then((res) => {
-        if (res.data.response_code === responseTypes.SUCCESS) {
-          setCategories(res.data.trivia_categories);
-        } else {
-          toast.error(apiErrorResponse(res.data.response_code));
-        }
+        setCategories(res.data.trivia_categories);
         setIsLoading(false);
       })
       .catch((err) => {
@@ -45,14 +51,25 @@ const ListQuestions = () => {
       toast.error("please select one category");
       return;
     }
-    const remainingCategories = categories.filter(
+
+    const unselectedCategories = categories.filter(
       (cat) => cat.id !== selectedCategory
     );
-    getQuestionsInCategory().then((res) => {
+
+    getQuestionsInCategory(
+      questionNumbers,
+      selectedCategory,
+      difficultiesStrings[`${difficulty}`]
+    ).then((res) => {
       if (res.data.response_code === responseTypes.SUCCESS) {
-        // dispatch(
-        //   setRemainingCategories({ remainingCategories, selectedCategory })
-        // );
+        dispatch(setQuestions({questionsList:res.data.results}));
+        dispatch(
+          setRemainingCategories({ remainingCategories:unselectedCategories, selectedCategory })
+        );
+
+        navigate('/questions')
+      } else {
+        toast.error(apiErrorResponse(res.data.response_code));
       }
     });
   };
@@ -69,6 +86,8 @@ const ListQuestions = () => {
       </div>
     );
   }
+
+  console.log("categories", categories);
 
   return (
     <div className="container">
