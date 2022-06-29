@@ -1,27 +1,33 @@
 import { useState, useEffect } from "react";
-const Timer = ({ time, cb }) => {
+
+
+let timeId = ''
+
+const Timer = ({ time, cb, resetCounter }) => {
   const [seconds, setSeconds] = useState(time);
 
   useEffect(() => {
-    setSeconds(time)
-  }, [time]);
+    if (resetCounter) {
+      clearTimeout(timeId)
+      setSeconds(time)
+    }
+  }, [resetCounter]);
 
   useEffect(() => {
     if (seconds > 0) {
-      setTimeout(() => {
+      timeId = setTimeout(() => {
         setSeconds(seconds - 1);
+        if (cb) cb(time - seconds);
       }, 1000);
-    } else {
-      if (cb) cb();
     }
+
   }, [seconds]);
 
   const timeDisplay = (seconds) => {
     const remainingMinutes = parseInt(seconds / 60, 10);
     const remainingSeconds = seconds % 60;
-    return `${
-      remainingMinutes > 9 ? remainingMinutes : `0${remainingMinutes}`
-    }:${remainingSeconds > 9 ? remainingSeconds : `0${remainingSeconds}`} `;
+    return `${remainingMinutes > 9 ? remainingMinutes : `0${remainingMinutes}`
+      }:${remainingSeconds > 9 ? remainingSeconds : `0${remainingSeconds}`} `;
   };
 
   return <div className="h2 p-2" >{timeDisplay(seconds)}</div>;

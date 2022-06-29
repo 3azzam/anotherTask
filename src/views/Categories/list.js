@@ -87,8 +87,6 @@ const ListQuestions = () => {
     );
   }
 
-  console.log("categories", categories);
-
   return (
     <div className="container">
       <div className=" my-4 p-4 bg-info rounded d-flex flex-column align-items-center">

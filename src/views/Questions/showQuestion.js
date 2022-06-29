@@ -11,26 +11,29 @@ const ShowQuesion = ({ question, toNextQuestion }) => {
 
   const { difficulty } = useSelector(state => state.game)
   const [userAnswer, setUserAnswer] = useState('')
+  const [answerTime, setAnswerTime] = useState(0)
   const [timerCountdown, setTimeCountdown] = useState(30 * (4 - difficulty))
+  const [resetCounter, setResetCounter] = useState(0)
 
   useEffect(() => {
     setTimeCountdown(30 * (4 - difficulty))
+    setResetCounter(resetCounter + 1)
   }, [question]);
 
   const handleAnswerSubmit = () => {
-    dispatch(setQuestionAnswer({ answer: userAnswer }))
+    dispatch(setQuestionAnswer({ answer: userAnswer, time: answerTime }))
     toNextQuestion()
   }
 
   const handleAnswerSkip = () => {
-    dispatch(setQuestionAnswer({ answer: null }))
+    dispatch(setQuestionAnswer({ answer: null, time: 30 * (4 - difficulty) }))
     toNextQuestion()
   }
 
   return (
     <div>
       <div className="m-1 rounded" style={{ width: "100px" }} >
-        <Timer time={timerCountdown} />
+        <Timer cb={setAnswerTime} resetCounter={resetCounter} time={timerCountdown} />
       </div>
       <div className="container p-3">
         {question.type === questionsType.MULTIPLE ?

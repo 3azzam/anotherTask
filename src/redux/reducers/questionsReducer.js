@@ -19,8 +19,8 @@ export const questionSlice = createSlice({
             saveJson(QUESTIONS_LIST, questionsList)
         },
         setQuestionAnswer: (state, action) => {
-            const { answer } = action.payload
-            state.questionsAnswers = [...state.questionsAnswers, answer]
+            const { answer, time } = action.payload
+            state.questionsAnswers = [...state.questionsAnswers, { answer, time }]
         }
     }
 })
