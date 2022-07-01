@@ -7,15 +7,14 @@ const QuestionsList = () => {
 
   const [questionCount, setQuestionCount] = useState(0);
 
-  const { selectedCategoriesDetails, remainingCategories, categoriesNumbers } = useSelector((state) => state.game)
-  const { questionsList, questionsAnswers } = useSelector((state) => state.questions);
+  const { categoriesIterationCount } = useSelector((state) => state.game)
+  const { questionsList } = useSelector((state) => state.questions);
 
   useEffect(() => {
     if (questionsList.length > 0 && questionCount >= questionsList.length) {
-
-      Math.abs(selectedCategoriesDetails.length - remainingCategories.length) >= categoriesNumbers ?
-        navigate("/score") :
-        navigate('/categories')
+      categoriesIterationCount > 0 ?
+        navigate('/categories') :
+        navigate("/score")
     }
   }, [questionCount]);
 

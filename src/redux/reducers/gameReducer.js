@@ -5,7 +5,7 @@ import {
     SELECTED_DIFFICULTY,
     REMIANING_CATEGORIES,
     SELECTED_CATEGORY,
-    SELECTED_CATEGORIES_DETAILS
+    CATEGORIES_ITERATION_COUNT
 } from "../../constants/localstorageConstant";
 import { difficulties } from "../../constants/appConstants";
 import { getString, saveString, getJson, saveJson } from "../../utils/localStorage";
@@ -49,7 +49,7 @@ const initialState = {
         : process.env.REACT_APP_CATEGORIES_EASY,
     remainingCategories: getJson(REMIANING_CATEGORIES) || [],
     selectedCategory: getString(SELECTED_CATEGORY) ? parseInt(getString(SELECTED_CATEGORY), 10) : null,
-    selectedCategoriesDetails: getJson(SELECTED_CATEGORIES_DETAILS) || []
+    categoriesIterationCount: getString(CATEGORIES_ITERATION_COUNT) ? parseInt(getString(CATEGORIES_ITERATION_COUNT), 10) : process.env.REACT_APP_CATEGORIES_MEDIUM
 };
 
 export const gameSlice = createSlice({
@@ -61,20 +61,22 @@ export const gameSlice = createSlice({
             state.difficulty = difficulty;
             state.questionNumbers = setQuestionsNumber(difficulty);
             state.categoriesNumbers = setCategoriesNumber(difficulty);
+            state.categoriesIterationCount = setCategoriesNumber(difficulty);
 
             saveString(SELECTED_DIFFICULTY, difficulty);
             saveString(CATEGORIES_NUMBERS, setCategoriesNumber(difficulty));
             saveString(QUESTION_NUMBERS, setQuestionsNumber(difficulty));
+            saveString(CATEGORIES_ITERATION_COUNT, setCategoriesNumber(difficulty))
         },
         setRemainingCategories: (state, action) => {
             const { remainingCategories, selectedCategory } = action.payload
             state.remainingCategories = remainingCategories
             state.selectedCategory = selectedCategory
-            state.selectedCategoriesDetails = [...state.selectedCategoriesDetails, selectedCategory]
+            state.categoriesIterationCount = state.categoriesIterationCount - 1
 
+            saveJson(CATEGORIES_ITERATION_COUNT, state.categoriesIterationCount)
             saveJson(REMIANING_CATEGORIES, remainingCategories)
             saveString(SELECTED_CATEGORY, selectedCategory)
-            saveJson(SELECTED_CATEGORIES_DETAILS, state.selectedCategoriesDetails, selectedCategory)
         }
     },
 });
