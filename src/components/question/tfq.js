@@ -10,7 +10,7 @@ const TFQ = ({ body, userAnswer }) => {
 
   return (
     <div className="p-3" >
-      <p className="text-center mb-4" >{body}</p>
+      <p className="text-center mb-4" dangerouslySetInnerHTML={{__html: body}} ></p>
       <div className="d-flex justify-content-center" >
         <button onClick={() => handleAnswerSelect('True')} className={`btn btn-lg mx-2 btn-primary ${selectedAnswer ? 'border border-dark' : ''}`}>
           {" "}

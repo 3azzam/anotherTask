@@ -16,7 +16,7 @@ const MSQ = ({ body, answers, userAnswer }) => {
 
   return (
     <div className="p-3">
-      <p className="text-center mb-4">{body}</p>
+      <p className="text-center mb-4" dangerouslySetInnerHTML={{__html: body}} ></p>
       <div className="row">
         {answers.map((answer) => (
           <div key={answer} className="col-6 mb-3">
@@ -24,8 +24,8 @@ const MSQ = ({ body, answers, userAnswer }) => {
               className={`w-100 btn btn-lg btn-success ${selectedAnswer === answer ? "border border-dark" : ""
                 }`}
               onClick={() => handleAnswerSelect(answer)}
+              dangerouslySetInnerHTML={{__html:answer}}
             >
-              {answer}
             </button>
           </div>
         ))}
