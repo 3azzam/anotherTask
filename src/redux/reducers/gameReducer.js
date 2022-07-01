@@ -4,10 +4,12 @@ import {
     QUESTION_NUMBERS,
     SELECTED_DIFFICULTY,
     REMIANING_CATEGORIES,
-    SELECTED_CATEGORY
+    SELECTED_CATEGORY,
+    SELECTED_CATEGORIES_DETAILS
 } from "../../constants/localstorageConstant";
 import { difficulties } from "../../constants/appConstants";
 import { getString, saveString, getJson, saveJson } from "../../utils/localStorage";
+import _ from 'lodash'
 
 const setQuestionsNumber = (difficulty) => {
     switch (difficulty) {
@@ -46,7 +48,8 @@ const initialState = {
         ? parseInt(getString(CATEGORIES_NUMBERS), 10)
         : process.env.REACT_APP_CATEGORIES_EASY,
     remainingCategories: getJson(REMIANING_CATEGORIES) || [],
-    selectedCategory: getString(SELECTED_CATEGORY) ? parseInt(getString(SELECTED_CATEGORY), 10) : null
+    selectedCategory: getString(SELECTED_CATEGORY) ? parseInt(getString(SELECTED_CATEGORY), 10) : null,
+    selectedCategoriesDetails: getJson(SELECTED_CATEGORIES_DETAILS) || []
 };
 
 export const gameSlice = createSlice({
@@ -67,9 +70,11 @@ export const gameSlice = createSlice({
             const { remainingCategories, selectedCategory } = action.payload
             state.remainingCategories = remainingCategories
             state.selectedCategory = selectedCategory
+            state.selectedCategoriesDetails = [...state.selectedCategoriesDetails, selectedCategory]
 
             saveJson(REMIANING_CATEGORIES, remainingCategories)
             saveString(SELECTED_CATEGORY, selectedCategory)
+            saveJson(SELECTED_CATEGORIES_DETAILS, state.selectedCategoriesDetails, selectedCategory)
         }
     },
 });

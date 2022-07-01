@@ -21,12 +21,12 @@ const ShowQuesion = ({ question, toNextQuestion }) => {
   }, [question]);
 
   const handleAnswerSubmit = () => {
-    dispatch(setQuestionAnswer({ answer: userAnswer, time: answerTime }))
+    dispatch(setQuestionAnswer({ correctAnswer: question.correct_answer, answer: userAnswer, time: answerTime }))
     toNextQuestion()
   }
 
   const handleAnswerSkip = () => {
-    dispatch(setQuestionAnswer({ answer: null, time: 30 * (4 - difficulty) }))
+    dispatch(setQuestionAnswer({ correctAnswer: question.correct_answer, answer: null, time: 30 * (4 - difficulty) }))
     toNextQuestion()
   }
 

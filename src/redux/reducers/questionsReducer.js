@@ -14,13 +14,13 @@ export const questionSlice = createSlice({
     reducers: {
         setQuestions: (state, action) => {
             const { questionsList } = action.payload
-            state.questionsList = questionsList
+            state.questionsList = [...state.questionsList, ...questionsList]
 
             saveJson(QUESTIONS_LIST, questionsList)
         },
         setQuestionAnswer: (state, action) => {
-            const { answer, time } = action.payload
-            state.questionsAnswers = [...state.questionsAnswers, { answer, time }]
+            const { answer, time, correctAnswer } = action.payload
+            state.questionsAnswers = [...state.questionsAnswers, { answer, time, correctAnswer }]
         }
     }
 })

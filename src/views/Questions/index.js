@@ -6,13 +6,16 @@ const QuestionsList = () => {
   const navigate = useNavigate();
 
   const [questionCount, setQuestionCount] = useState(0);
-  const { questionsList, questionsAnswers } = useSelector(
-    (state) => state.questions
-  );
+
+  const { selectedCategoriesDetails, remainingCategories, categoriesNumbers } = useSelector((state) => state.game)
+  const { questionsList, questionsAnswers } = useSelector((state) => state.questions);
 
   useEffect(() => {
     if (questionsList.length > 0 && questionCount >= questionsList.length) {
-      navigate("/score");
+
+      Math.abs(selectedCategoriesDetails.length - remainingCategories.length) >= categoriesNumbers ?
+        navigate("/score") :
+        navigate('/categories')
     }
   }, [questionCount]);
 

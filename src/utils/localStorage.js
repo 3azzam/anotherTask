@@ -13,3 +13,7 @@ export const getString = (key) => {
 export const getJson = (key) => {
     return JSON.parse(`${localStorage.getItem(key)}`)
 }
+
+export const flushAll = () => {
+    localStorage.clear();
+}
