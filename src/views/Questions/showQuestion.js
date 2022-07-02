@@ -18,9 +18,11 @@ const ShowQuesion = ({ question, toNextQuestion }) => {
   useEffect(() => {
     setTimeCountdown(30 * (4 - difficulty))
     setResetCounter(resetCounter + 1)
+    setUserAnswer('')
   }, [question]);
 
   const handleAnswerSubmit = () => {
+    if(!userAnswer) return
     dispatch(setQuestionAnswer({ correctAnswer: question.correct_answer, answer: userAnswer, time: answerTime }))
     toNextQuestion()
   }
